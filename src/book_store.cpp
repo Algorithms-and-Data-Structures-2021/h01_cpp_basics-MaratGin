@@ -11,22 +11,25 @@ ResizeStorageStatus resize_storage(Book *&storage, int size, int new_capacity) {
      if (new_capacity<0){
          return ResizeStorageStatus::NEGATIVE_SIZE;
      } else {
-         if (storage == nullptr) {
-             return ResizeStorageStatus::NULL_STORAGE;
-         } else{
-             if (new_capacity<size){
-                 return ResizeStorageStatus::INSUFFICIENT_CAPACITY;
-             } else{
-                 Book *newStorage = new Book[new_capacity];
-               //  std::copy(storage,storage+size,newStorage);
+         if (size < 0) {
+             ResizeStorageStatus::NEGATIVE_SIZE;
+         } else {
+             if (storage == nullptr) {
+                 return ResizeStorageStatus::NULL_STORAGE;
+             } else {
+                 if (new_capacity <= size) {
+                     return ResizeStorageStatus::INSUFFICIENT_CAPACITY;
+                 } else {
+                     Book *newStorage = new Book[new_capacity];
+                      std::copy(storage,storage+size,newStorage);
 
-                 storage=newStorage;
-                 delete[] storage;
-                 return ResizeStorageStatus::SUCCESS;
+                     storage = newStorage;
+                     delete[] storage;
+                     return ResizeStorageStatus::SUCCESS;
+                 }
              }
          }
      }
-
   return ResizeStorageStatus::SUCCESS;
 }
 
